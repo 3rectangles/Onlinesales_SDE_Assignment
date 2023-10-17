@@ -13,7 +13,7 @@
 - The tests include a tolerance parameter to allow for some deviation in the results
 - Simulation Parameter (k):  Set the simulation parameter 'k' to 500,000. This means we simulated 500,000 events based on the provided probabilities.
 
-Tolerance: We applied a tolerance of 3% in our test. This tolerance allowed for a maximum deviation of 3% from the expected outcomes to consider the test as passed.
+Tolerance: Applied a tolerance of 3% in our test. This tolerance allowed for a maximum deviation of 3% from the expected outcomes to consider the test as passed.
 
 Test Pass: With these parameters and the 3% tolerance, the test successfully passed, indicating that the biased event simulation produced results roughly matching the expected distribution.
 - Test cases check if simulated outcomes roughly match the expected distribution within the specified tolerance.
