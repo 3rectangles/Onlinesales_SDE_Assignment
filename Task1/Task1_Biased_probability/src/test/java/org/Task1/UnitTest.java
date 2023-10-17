@@ -21,7 +21,7 @@ class UnitTest {
         Map<String, Integer> testResults = testSimulator.generateEvents(testProbabilities, k);
 
         // Define a percentage-based tolerance for the expected values
-        double tolerance = 10.0; // 5% tolerance
+        double tolerance = 3.0; // 3% tolerance
 
         // Calculate the allowable range based on percentages
         double expectedA = 10.0 * k / 100.0;
