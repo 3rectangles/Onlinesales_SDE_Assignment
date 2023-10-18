@@ -34,35 +34,37 @@ public class EvaluateRequestController {
         // add the incoming req to the queue, for concurrent users
         reqQueue.add(req);
         // limit the rate of requests handled by the application
-
+        SolveRequestDto polledreq = null;
+        SolveResponseDto responseDto = null;
         while (!reqQueue.isEmpty()) {
             if (rateLimiter.isAllowed()) { // Check if it's allowed to process acc to rate limitng
+                polledreq = reqQueue.poll();
 
                 // validate the solvedRequestDto
-                if(!reqParser.validate(req.expressions))
+                if(!reqParser.validate(polledreq.expressions))
                 {
                    return new SolveResponseDto(null,null, EvaluateRequestStatus.FAILURE);
                 }
 
 
 
-                // make request object, if validation passed
-                 Request request = evaluateRequestService.createRequest(req.expressions);
+                // make request object, if validation passed and save it to DB
+                 Request request = evaluateRequestService.createRequest(polledreq.expressions);
                 // Solve the expression in the request object
                 List<String> answers = null;
                 try {
-                    answers = evaluateRequestService.evaluateExpression(req.expressions);
+                    answers = evaluateRequestService.evaluateExpression(polledreq.expressions);
                 } catch (ApiConnectException e) {
                     throw new ApiConnectException(" couldnt connect to API");
                 }
 
-                if( answers.size() <=0 && req.expressions.size() >0){
-                    SolveResponseDto responseDto = new SolveResponseDto(request,
+                if( answers.size() <=0 && polledreq.expressions.size() >0){
+                     responseDto = new SolveResponseDto(request,
                             answers,EvaluateRequestStatus.FAILURE);
 
                 }
                 // return ResponseDto
-                 SolveResponseDto responseDto = new SolveResponseDto(request,
+                 responseDto = new SolveResponseDto(request,
                          answers,EvaluateRequestStatus.SUCCESS);
             } else {
                 try {
@@ -73,7 +75,7 @@ public class EvaluateRequestController {
                 }
             }
         }
-        return new SolveResponseDto(null,null, EvaluateRequestStatus.FAILURE);
+        return responseDto;
 
     }
 

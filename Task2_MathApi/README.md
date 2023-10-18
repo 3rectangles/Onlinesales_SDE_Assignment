@@ -36,7 +36,7 @@ Navigate to the root folder of the cloned repository.
 Select the root folder and confirm the import.
 Once imported, you should see the project structure in your IDE.
 Running the Mock Requests:
-To mock the requests and test the program, you can run the Client.java class. This class includes the main program logic and can be executed to evaluate mathematical expressions.
+To mock the requests and test the program, you can run the Client.java class or Main.java clas (using the MVC flow ). This class includes the main program logic and can be executed to evaluate mathematical expressions.
 
 MVC Architecture and Integration:
 The codebase is structured following the Model-View-Controller (MVC) architecture. While the core architecture and components are in place, some integration steps may still be pending due to time constraints. However, the foundation for a well-organized and maintainable codebase is already established, and further integration can be completed as needed to meet specific requirements.
