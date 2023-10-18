@@ -18,8 +18,12 @@ The program is implemented using the following techniques and design patterns:
 
 ## Usage
 
-The program accepts mathematical expressions as input, with one expression per line. It evaluates each expression using the Web API, and the results are displayed on the console. To indicate the end of input, you can use "end."
+To run the code, follow these steps:
 
-Here's an example of the input and expected output:
+1. Make sure you have Java 11 installed on your system.
 
-**Input:**
+2. Compile and run the `Client` class, which contains the main program. You can do this from the command line:
+
+```bash
+javac Client.java
+java Client
