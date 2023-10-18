@@ -7,6 +7,22 @@ public class HttpExpressionResponse {
     private List<String> expressionResults;
     private HttpResponseStatus status = HttpResponseStatus.Pending;
 
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
+    }
+
+    public List<String> getExpressionResults() {
+        return expressionResults;
+    }
+
+    public void setExpressionResults(List<String> expressionResults) {
+        this.expressionResults = expressionResults;
+    }
+
+    public void setStatus(HttpResponseStatus status) {
+        this.status = status;
+    }
+
     public HttpResponseStatus getStatus() {
         return status;
     }

@@ -2,6 +2,7 @@ package controllers;
 
 import dtos.SolveRequestDto;
 import dtos.SolveResponseDto;
+import exception.ApiConnectException;
 import models.EvaluateRequestStatus;
 import models.Request;
 import service.EvaluateRequestService;
@@ -29,7 +30,7 @@ public class EvaluateRequestController {
         this.reqParser = reqParser;
     }
 
-    public SolveResponseDto solve( SolveRequestDto req ) throws IllegalArgumentException{
+    public SolveResponseDto solve( SolveRequestDto req ) throws IllegalArgumentException, ApiConnectException {
         // add the incoming req to the queue, for concurrent users
         reqQueue.add(req);
         // limit the rate of requests handled by the application
@@ -48,8 +49,19 @@ public class EvaluateRequestController {
                 // make request object, if validation passed
                  Request request = evaluateRequestService.createRequest(req.expressions);
                 // Solve the expression in the request object
-                 List<String> answers =  evaluateRequestService.evaluateExpression(req.expressions);
-                 // return ResponseDto
+                List<String> answers = null;
+                try {
+                    answers = evaluateRequestService.evaluateExpression(req.expressions);
+                } catch (ApiConnectException e) {
+                    throw new ApiConnectException(" couldnt connect to API");
+                }
+
+                if( answers.size() <=0 && req.expressions.size() >0){
+                    SolveResponseDto responseDto = new SolveResponseDto(request,
+                            answers,EvaluateRequestStatus.FAILURE);
+
+                }
+                // return ResponseDto
                  SolveResponseDto responseDto = new SolveResponseDto(request,
                          answers,EvaluateRequestStatus.SUCCESS);
             } else {

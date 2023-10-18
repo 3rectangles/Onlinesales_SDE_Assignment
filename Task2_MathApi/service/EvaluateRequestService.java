@@ -11,16 +11,19 @@ package service;
 // client gets the responseDTO, checks the reponsestatus if fullfilled prints on the console else ERROR print
 
 
-import com.sun.source.tree.NewArrayTree;
-import models.Expression;
+import exception.ApiConnectException;
+import models.HttpExpressionResponse;
+import models.HttpResponseStatus;
 import models.Request;
 import repositories.RequestRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EvaluateRequestService {
     private  RequestRepository requestRepository;
+    private  ExpressionEvaluationService adapter =  ExpressionEvaluationServiceFactory.createApiAdapter("math.js");
     public EvaluateRequestService(RequestRepository requestRepository) {
         this.requestRepository = requestRepository;
     }
@@ -40,18 +43,22 @@ public class EvaluateRequestService {
         return req;
     }
 
-    public List<String> evaluateExpression(List<String> expressions) {
+    public List<String> evaluateExpression(List<String> expressions) throws ApiConnectException  {
 
         List<String> answers = new ArrayList<>();
-        // call the 3rd party API, store the future,
-        // make a blocking call so that all expression of a request gets completed
-        // before returning the response
+        CompletableFuture<HttpExpressionResponse> future = adapter.EvaluateExpressionAsync(expressions);
+        future.thenAccept(httpExpressionResponse -> {
+            if (httpExpressionResponse.getStatus() == HttpResponseStatus.SUCCESS) {
+                List<String> results = httpExpressionResponse.getResponseContent();
+            }
+        }).exceptionally(ex -> {
+            System.err.println("Error: " + ex.getMessage());
+            return null;
+        });
 
 
-        // check the result of the future, if response code API is valid
-        // put the ans
-        // else put the response code and error
-
+        // Wait for the future to complete, wont be needed when server is used
+        answers = future.join().getExpressionResults();
 
         return answers;
     }

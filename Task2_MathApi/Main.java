@@ -1,6 +1,7 @@
 import dtos.SolveRequestDto;
 import controllers.EvaluateRequestController;
 import dtos.SolveResponseDto;
+import exception.ApiConnectException;
 import models.EvaluateRequestStatus;
 import repositories.RequestRepository;
 import service.EvaluateRequestService;
@@ -63,6 +64,8 @@ public class Main {
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
+        } catch (ApiConnectException e) {
+            System.out.println(e.getMessage());
         }
 
 
