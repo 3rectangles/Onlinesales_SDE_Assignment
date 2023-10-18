@@ -14,23 +14,30 @@ package service;
 import com.sun.source.tree.NewArrayTree;
 import models.Expression;
 import models.Request;
+import repositories.RequestRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EvaluateRequestService {
+    private  RequestRepository requestRepository;
+    public EvaluateRequestService(RequestRepository requestRepository) {
+        this.requestRepository = requestRepository;
+    }
 
-    public Request createRequest(List<String > listExpression) {
+
+
+    public Request createRequest(List<String> expressions) {
+        // Create a Request object
         Request req = new Request();
-        // loop through the expressions in string
-        // create expression using ExpressionRepository
-        // create Request Object
-        // push the Expression Objects in the Request using RequestRepository
-        // Return Request object
 
+        // Update the expressions in the Request object
+        req.setExpressions(expressions);
 
-        return  req;
+        // Save the Request object in the repository
+        requestRepository.save(req);
 
+        return req;
     }
 
     public List<String> evaluateExpression(List<String> expressions) {

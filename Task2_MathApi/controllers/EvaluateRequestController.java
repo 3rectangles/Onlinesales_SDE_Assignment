@@ -19,9 +19,9 @@ public class EvaluateRequestController {
     private EvaluateRequestService evaluateRequestService;
     private ReqParser reqParser;
 
-    EvaluateRequestController(RateLimiter limiter,
-                              EvaluateRequestService evaluateRequestService,
-                              ReqParser reqParser)
+    public EvaluateRequestController(RateLimiter limiter,
+                                     EvaluateRequestService evaluateRequestService,
+                                     ReqParser reqParser)
     {
         this.rateLimiter = limiter;
         this.reqQueue = new ConcurrentLinkedDeque<>();
@@ -36,7 +36,6 @@ public class EvaluateRequestController {
 
         while (!reqQueue.isEmpty()) {
             if (rateLimiter.isAllowed()) { // Check if it's allowed to process acc to rate limitng
-                SolveRequestDto req1 = reqQueue.poll();
 
                 // validate the solvedRequestDto
                 if(!reqParser.validate(req.expressions))

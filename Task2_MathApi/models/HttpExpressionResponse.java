@@ -1,17 +1,19 @@
 package models;
 
+import java.util.List;
+
 public class HttpExpressionResponse {
     private int responseCode;
-    private String responseContent;
+    private List<String> expressionResults;
     private HttpResponseStatus status = HttpResponseStatus.Pending;
 
     public HttpResponseStatus getStatus() {
         return status;
     }
 
-    public HttpExpressionResponse(int responseCode, String responseContent, HttpResponseStatus status) {
+    public HttpExpressionResponse(int responseCode, List<String> expressionResults, HttpResponseStatus status) {
         this.responseCode = responseCode;
-        this.responseContent = responseContent;
+        this.expressionResults = expressionResults;
         this.status = status;
     }
 
@@ -19,7 +21,7 @@ public class HttpExpressionResponse {
         return responseCode;
     }
 
-    public String getResponseContent() {
-        return responseContent;
+    public List<String> getResponseContent() {
+        return expressionResults;
     }
 }
